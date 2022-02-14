@@ -1,0 +1,24 @@
+{
+  "name": "sb-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "chalk": "^4.1.2",
+    "clear": "^0.1.0",
+    "cli-table": "^0.3.6",
+    "dns2": "^2.0.1",
+    "dotenv": "^10.0.0",
+    "figlet": "^1.5.2",
+    "inquirer": "^8.2.0",
+    "mongoose": "^6.2.1",
+    "public-ip": "^4.0.4"
+  }
+}
