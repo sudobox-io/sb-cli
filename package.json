@@ -17,6 +17,7 @@
     "dns2": "^2.0.1",
     "dotenv": "^10.0.0",
     "figlet": "^1.5.2",
+    "generate-password": "^1.7.0",
     "inquirer": "^8.2.0",
     "mongoose": "^6.2.1",
     "public-ip": "^4.0.4"
