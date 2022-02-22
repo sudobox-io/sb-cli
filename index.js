@@ -4,9 +4,13 @@ const { apps, settings } = require("./submenus");
 const initQuestions = require("./lib/initQuestions");
 const mongoose = require("mongoose");
 
+const commandLineArgs = require("command-line-args");
+
 const Settings = require("./models/Settings");
 
 require("dotenv").config();
+
+const options = commandLineArgs([{ name: "purge", type: Boolean }], { partial: true });
 
 // Mongoose connection
 mongoose
@@ -21,7 +25,8 @@ mongoose
 
 const printInfo = require("./lib/printInfo");
 
-process.on("SIGTERM", () => {
+process.on("SIGINT", () => {
+  clear();
   process.exit();
 });
 
@@ -79,6 +84,10 @@ const mainMenu = async () => {
 
 const init = async () => {
   await printInfo();
+
+  if (Object.keys(options).length !== 0 && options?.purge) {
+    await Settings.deleteMany({});
+  }
 
   // Check if settings exist -> run setup wizard if none exist
   const settings = await Settings.find({});
