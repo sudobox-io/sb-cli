@@ -279,7 +279,11 @@ const installApps = async () => {
               clear();
               await printInfo();
               for (const [key, value] of Object.entries(appsInstalling)) {
-                console.log(`${key}: ${value}`);
+                console.log(`${key}: ${value.status}`);
+                if (value.message !== "") {
+                  console.log(value.message);
+                  console.log("");
+                }
               }
 
               console.log("");
