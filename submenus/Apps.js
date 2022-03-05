@@ -270,7 +270,7 @@ const installApps = async () => {
                 const installedApp = await installApp(app.id);
                 if (installedApp) {
                   appsInstalling[app.original].status = "Successfully Installed";
-                  appsInstalling[app.original].message = `Accessible at: ${app.original}.${domain.value}`;
+                  appsInstalling[app.original].message = `Accessible at: https://${app.original}.${domain.value}`;
                 } else {
                   appsInstalling[app.original] = "Installation Failed";
                 }
@@ -291,7 +291,7 @@ const installApps = async () => {
                 `${Object.entries(appsInstalling).length} apps queued - ${
                   Object.entries(appsInstalling)
                     .map((app) => app[1])
-                    .filter((app) => app === "Successfully Installed").length
+                    .filter((app) => app.status === "Successfully Installed").length
                 } Successfully Installed`
               );
               console.log("");
