@@ -251,7 +251,7 @@ const installApps = async () => {
               loop = false;
 
               const appsInstalling = {};
-              const domain = await Settings.findOne({ name: "domain" });
+              const domain = await SettingsDB.findOne({ name: "domain" });
 
               for (const app of appsBeingInstalled) {
                 clear();
