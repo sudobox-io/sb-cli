@@ -6,6 +6,7 @@ const Table = require("cli-table");
 const { promisify } = require("util");
 const { setTimeout } = require("timers/promises");
 const sleep = promisify(setTimeout);
+const SettingsDB = require("../models/Settings");
 
 const installApp = async (id) => {
   return new Promise(async (resolve, reject) => {
@@ -213,6 +214,11 @@ const installApps = async () => {
     console.log("✅  Selected");
     console.log("");
 
+    if (appsBeingInstalled.length >= 1) {
+      console.log(`${appsBeingInstalled.length} Selected`);
+      console.log("");
+    }
+
     await inquirer
       .prompt([
         {
@@ -245,20 +251,26 @@ const installApps = async () => {
               loop = false;
 
               const appsInstalling = {};
+              const domain = await Settings.findOne({ name: "domain" });
 
               for (const app of appsBeingInstalled) {
                 clear();
                 await printInfo();
 
-                appsInstalling[app.original] = "Installing...";
+                appsInstalling[app.original] = { status: "Installing...", message: "" };
 
                 for (const [key, value] of Object.entries(appsInstalling)) {
-                  console.log(`${key}: ${value}`);
+                  console.log(`${key}: ${value.status}`);
+                  if (value.message !== "") {
+                    console.log(value.message);
+                    console.log("");
+                  }
                 }
 
                 const installedApp = await installApp(app.id);
                 if (installedApp) {
-                  appsInstalling[app.original] = "Successfully Installed";
+                  appsInstalling[app.original].status = "Successfully Installed";
+                  appsInstalling[app.original].message = `Accessible at: ${app.original}.${domain.value}`;
                 } else {
                   appsInstalling[app.original] = "Installation Failed";
                 }
