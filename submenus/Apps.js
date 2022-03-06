@@ -7,6 +7,7 @@ const { promisify } = require("util");
 const { setTimeout } = require("timers/promises");
 const sleep = promisify(setTimeout);
 const SettingsDB = require("../models/Settings");
+const printMessage = require("print-message");
 
 const getApp = async (id) => {
   return new Promise(async (resolve, reject) => {
