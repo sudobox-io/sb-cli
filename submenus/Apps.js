@@ -279,7 +279,7 @@ const installApps = async () => {
 
                 if (appinfo.results?.settings.includes("User_Prompts")) {
                   appQuestions = await inquirer.prompt([
-                    ...appinfo.userPrompts.map((question) => ({
+                    ...appinfo.results.userPrompts.map((question) => ({
                       type: "input",
                       name: question.name,
                       message: question.message,
