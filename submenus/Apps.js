@@ -18,6 +18,7 @@ const getApp = async (id) => {
       });
       resolve(appSettings.data);
     } catch (err) {
+      console.log(err);
       reject(false);
     }
   });
@@ -273,9 +274,11 @@ const installApps = async () => {
                 await printInfo();
 
                 const appinfo = getApp(app.id);
+                console.log(appinfo);
+
                 let appQuestions;
 
-                if (appinfo.results.settings.includes("User_Prompts")) {
+                if (appinfo.results?.settings.includes("User_Prompts")) {
                   appQuestions = await inquirer.prompt([
                     ...appinfo.userPrompts.map((question) => ({
                       type: "input",
