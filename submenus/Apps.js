@@ -8,14 +8,29 @@ const { setTimeout } = require("timers/promises");
 const sleep = promisify(setTimeout);
 const SettingsDB = require("../models/Settings");
 
-const installApp = async (id) => {
+const getApp = async (id) => {
+  return new Promoise(async (resolve, reject) => {
+    try {
+      const appSettings = await axios({
+        method: "GET",
+        url: `https://api.sudobox.io/v1/apps/${id}`,
+        headers: { "Content-Type": "Application/json" },
+      });
+      resolve(appSettings.data);
+    } catch (err) {
+      reject(false);
+    }
+  });
+};
+
+const installApp = async (id, questions) => {
   return new Promise(async (resolve, reject) => {
     try {
       const installedApp = await axios({
         method: "POST",
         url: `${process.env.SB_BACKEND}/apps`,
         headers: { "Content-Type": "Application/json" },
-        data: { id },
+        data: { id, questions },
       });
       resolve(installedApp.data.installed);
     } catch (err) {
@@ -257,6 +272,19 @@ const installApps = async () => {
                 clear();
                 await printInfo();
 
+                const appinfo = getApp(app.id);
+                let appQuestions;
+
+                if (appinfo.settings.includes("User_Prompts")) {
+                  appQuestions = await inquirer.prompt([
+                    ...appinfo.userPrompts.map((question) => ({
+                      type: "input",
+                      name: question.name,
+                      message: question.message,
+                    })),
+                  ]);
+                }
+
                 appsInstalling[app.original] = { status: "Installing...", message: "" };
 
                 for (const [key, value] of Object.entries(appsInstalling)) {
@@ -267,7 +295,7 @@ const installApps = async () => {
                   }
                 }
 
-                const installedApp = await installApp(app.id);
+                const installedApp = await installApp(app.id, appQuestions);
                 if (installedApp) {
                   appsInstalling[app.original].status = "Successfully Installed";
                   appsInstalling[app.original].message = `Accessible at: https://${app.original}.${domain.value}`;
