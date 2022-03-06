@@ -290,6 +290,9 @@ const installApps = async () => {
                       message: question.question,
                     })),
                   ]);
+
+                  clear();
+                  await printInfo();
                 }
 
                 appsInstalling[app.original] = { status: "Installing...", message: "" };
