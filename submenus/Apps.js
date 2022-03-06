@@ -282,7 +282,7 @@ const installApps = async () => {
                     ...appinfo.results.userPrompts.map((question) => ({
                       type: "input",
                       name: question.name,
-                      message: question.message,
+                      message: question.question,
                     })),
                   ]);
                 }
