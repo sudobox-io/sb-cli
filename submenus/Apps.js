@@ -9,7 +9,7 @@ const sleep = promisify(setTimeout);
 const SettingsDB = require("../models/Settings");
 
 const getApp = async (id) => {
-  return new Promoise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const appSettings = await axios({
         method: "GET",
