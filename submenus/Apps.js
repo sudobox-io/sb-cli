@@ -278,6 +278,10 @@ const installApps = async () => {
                 let appQuestions;
 
                 if (appinfo.results?.settings.includes("User_Prompts")) {
+                  printMessage(["", "This app requires some extra information from you", "Please answer the following questions", ""], {
+                    border: false,
+                    color: "cyan",
+                  });
                   appQuestions = await inquirer.prompt([
                     ...appinfo.results.userPrompts.map((question) => ({
                       type: "input",
