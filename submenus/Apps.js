@@ -310,7 +310,8 @@ const installApps = async () => {
                   appsInstalling[app.original].status = "Successfully Installed";
                   appsInstalling[app.original].message = `Accessible at: https://${app.original}.${domain.value}`;
                 } else {
-                  appsInstalling[app.original] = "Installation Failed";
+                  appsInstalling[app.original].status = "Installation Failed";
+                  appsInstalling[app.original].message = "";
                 }
               }
 
